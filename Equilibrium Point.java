@@ -23,18 +23,12 @@ class Solution {
     public static int findEquilibrium(int arr[]) {
         // code here
         int n=arr.length;
-        int a[]=new int[n];
-        int b[]=new int[n];
-        int sum1=0,sum2=0;
-        for(int i=0;i<n;i++){
-            sum1+=arr[i];
-            a[i]=sum1;
+        int tsum=0,sum=0;
+        for(int i:arr) tsum+=i;
+        for(int i=0;i<n;i++) {
+            if(tsum-sum-arr[i]==sum) return i;
+            sum+=arr[i];
         }
-        for(int i=n-1;i>=0;i--){
-            sum2+=arr[i];
-            b[i]=sum2;
-        }
-        for(int i=0;i<n;i++) if(a[i]==b[i]) return i;
         return -1;
     }
 }
