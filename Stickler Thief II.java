@@ -1,0 +1,50 @@
+/*
+You are given an array arr[] which represents houses arranged in a circle, where each house has a certain value. A thief aims to maximize the total stolen value without robbing two adjacent houses.
+Determine the maximum amount the thief can steal.
+
+Note: Since the houses are in a circle, the first and last houses are also considered adjacent.
+
+Examples:
+
+Input: arr[] = [2, 3, 2]
+Output: 3
+Explanation: arr[0] and arr[2] can't be robbed because they are adjacent houses. Thus, 3 is the maximum value thief can rob.
+
+Input: arr[] = [1, 2, 3, 1]
+Output: 4
+Explanation: Maximum stolen value: arr[0] + arr[2] = 1 + 3 = 4
+
+Input: arr[] = [2, 2, 3, 1, 2]
+Output: 5
+Explanation: Maximum stolen value: arr[0] + arr[2] = 2 + 3 = 5 or arr[2] + arr[4] = 3 + 2 = 5
+*/
+
+class Solution {
+    int maxValue(int[] arr) {
+        // code here
+      int n = arr.length;
+      if(n == 1)return arr[0];
+      if(n == 2)return Math.max(arr[0] , arr[1]);
+      
+      int[] dp1 = new int[n];
+      int[] dp2 = new int[n];
+      
+      Arrays.fill(dp1 , -1);
+      Arrays.fill(dp2 , -1);
+      
+      int sum1 = solve1(arr , 0 , n - 1 , dp1);
+      int sum2 = solve1(arr , 1 , n , dp2);
+      
+      return Math.max(sum1,sum2);
+  }
+  public static int solve1(int[] arr , int i , int n , int[] dp){
+      if(i >= n)return 0;
+      
+      if(dp[i] != -1)return dp[i];
+      
+      int taken = solve1(arr , i + 2 , n , dp) + arr[i];
+      int nottaken = solve1(arr , i + 1 , n , dp) + 0;
+      
+      return dp[i] = Math.max(taken , nottaken);
+  }
+}
